@@ -4,7 +4,7 @@
 I've started to learn Vim in November 2019, as part of a larger interest in the world of programming. For me, Learning Vim is first and foremost a personal journey, an expedition. As many users before me have pointed out, with Vim you can improve and optimize your personal workflow endlessly. There are new things to discover every single day and most of it will further enhance your life and work. This file documents this journey as I travelled through the vimtutor, Miki Tebeka's course on LinkedIn and the many (video) tutorials and other material that are to be found online. You will find my notes, discoveries, useful advice I've picked up along the way and above all a summary of my learning process.   
 &nbsp;&nbsp;&nbsp;With this document I will keep track of my own learning and justify my personal choices. At the same time I hope it will provide insights, not instructions, for generations Vim learners to come. As it is a personal learning document I've subjected it to Git Version Control (shared on GitHub) so one can follow my learning history, revisit past versions of my cheat sheet and relive past clumsiness. Keeping track of personal learning through a version control system like Git should be a part of any academic program, but that is a whole other topic that I will save for somewhere else.   
 &nbsp;&nbsp;&nbsp;The ideas and advice that are to be found in this document are of course anything but mine. It is impossible to do justice to all the contributors to my learning, because there are simply too many out there, also implicit. Wherever possible I do provide references to external sources, while trying to explain why that source of information or advice was so valuable to my learning. I have also included a section on valuable resources for information or tutorials on Vim and Vimscript.
-&nbsp;&nbsp;&nbsp; A copy of my .vimrc file is included in the same 'Learning Vim' repository on GitHub.
+&nbsp;&nbsp;&nbsp; A copy of my .vimrc file as well as other relevant documents are included in the same 'Learning Vim' repository on GitHub.
 
 ## First steps
 ### Muscle memory
@@ -23,7 +23,8 @@ In my .vimrc (also shared on GitHub) I have three sections: general settings, my
 &nbsp;&nbsp;&nbsp;My mappings are to be found in the second section. Mappings for the functions keys are meant for programmatic behavior, like running code, the loading of filetype specific configurations or executing Git commands. `<leader>[0-9]` are reserved for more basic toggling options, like the netrw project folder, the quickfix window, spellcheck, wrapping, linebreaks and more.  
 &nbsp;&nbsp;&nbsp;The idea behind the last section is to provide a space for learning and experimentation. These are temporary settings until accepted or discarded. 
       
-## Vim script
+## Vimscript
+After learning the basics of using the editor I dived into learning Vimscript through the website: Learn Vimscript the Hard Way by Steve Losh (2013).
 
 ## Plugins
 

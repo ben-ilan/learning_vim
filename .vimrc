@@ -1,13 +1,56 @@
 " *** GENERAL SETTINGS ***
 " ---------------------{{{
+execute pathogen#infect()
 
 filetype plugin indent on
 
 let mapleader = ","
 
 set number
+
+" bellof for errors in Normal mode 
+set belloff=error
+
+" linebreak and wrap defaults
 set nolinebreak
+set nowrap
+
+" but make an exception for md
+augroup general_options
+   autocmd!
+   autocmd FileType markdown,abc  setlocal linebreak
+   autocmd FileType markdown,abc  setlocal wrap
+augroup END
+
 set confirm " shows a dialog before exiting a buffer
+
+set clipboard="" "no connection with the external clipboard, use "+p
+
+" always perform very magic pattern search
+nnoremap / /\v
+
+" NTRW file browser --------{{{
+" see (https://shapeshed.com/vim-netrw/) 
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+" }}}
+
+" ARROW KEYS --------{{{
+nnoremap <Up> <C-W><Up>
+nnoremap <Down><Down> <C-W><Down> 
+nnoremap <Left> <C-W><Left>
+nnoremap <Right> <C-W><Right>
+
+" changing and deleting buffers
+" NOTE: changing buffer with the ARROW keys will save automatically
+nnoremap <Down><Del> :bd<CR>
+nnoremap <Down><Right> :w<CR>:bn<CR> 
+nnoremap <C-Tab> :w<CR>:bn<CR> 
+nnoremap <Down><Left> :w<CR>:bp<CR>
+" }}}
 
 " TABS --------{{{
 set tabstop=3
@@ -23,12 +66,13 @@ nnoremap ; :
 " leaving Insert and Visual mode more easy
 inoremap <leader>. <Esc>
 vnoremap <leader>. <Esc>
-" but prevent firing the . operator by accident 
+" but prevent firing the . operator by accident in normal mode
+
 nnoremap <leader>. <Nop>
 
 " leave insert mode after 10 seconds inactivity
 " TODO mention reference
-augroup general
+augroup insert_leave
    autocmd!
    autocmd CursorHoldI * stopinsert
    autocmd InsertEnter * let updaterestore=&updatetime | set updatetime=10000
@@ -37,8 +81,8 @@ augroup END
 
 " }}}
 
-" FOLDING FILETYPE VIM SPECIFIC ---------{{{
-augroup filetype_vim
+"FOLDING FILETYPE VIM ---------{{{
+augroup folding
    autocmd!
    autocmd FileType vim setlocal foldmethod=marker
    autocmd FileType vim setlocal foldlevelstart=1
@@ -52,37 +96,44 @@ augroup END
 " FUNCTION KEYS {{{ 
 
 " <F1>: invokes VIM's help system (DO NOT OVERRIDE)
-noremap <F1> :help<CR>
+nnoremap <F1> :help<CR>
 
 " <F2>: reloads the default .vimrc configuration (DO NOT OVERRIDE)
-noremap <F2> :source ~/.vimrc<CR>:echom ".vimrc reloaded"<CR>
+nnoremap <F2> :w<CR>:source ~/.vimrc<CR>:echom ".vimrc reloaded"<CR>
 
-" <F3>: switches between language specific configurations (DO NOT OVERRIDE) 
-nnoremap <F3> :source ~/.vim/
+" <F3>: open terminal buffer inside Vim
+nnoremap <F3> :term <CR>
 
-" <F4>: switch configuration to current filetype (DO NOT OVERRIDE)
-" TODO maybe this one is not needed if filetype specific loadings take place
-" in .vimrc and thus invoked through <F2>. 
+" <F5> + <F6>: run in browser or terminal, <F6> is alternative if there are
+" two options for a certain filetype
+augroup sourcing
+   autocmd!
+   autocmd FileType vim nnoremap <buffer> <F5> :w<CR>:source %<CR>
+   autocmd FileType vim inoremap <buffer> <F5> <ESC>:w<CR>:source %<CR>l
 
-" <F5>: run in console or browser 
-noremap <F5> :w<CR>:source %<CR>
+   autocmd FileType markdown,svg,html nnoremap <silent> <buffer> <F5> :w<CR>:! start chrome %<CR>
+   autocmd FileType markdown,svg,html inoremap <silent> <buffer> <F5> <ESC>:w<CR>:! start chrome %<CR>l
 
-" <F6>: open terminal buffer inside Vim
-nnoremap <F6> :term <CR>
+   autocmd FileType javascript nnoremap <silent> <buffer> <F5> :w<CR>:echo system("node " . expand("%:p"))<CR>
+   autocmd FileType javascript inoremap <silent> <buffer> <F5> <ESC>:w<CR>:echo system("node " . expand("%:p"))<CR>l
+   " browser alternative, needs an index.html in the same folder that
+   " references the javascript file  
+   autocmd FileType javascript nnoremap <silent> <buffer> <F6> :w<CR>:! start chrome "%:h/index.html"<CR>
+   autocmd FileType javascript inoremap <silent> <buffer> <F6> <ESC>:w<CR>:! start chrome "%:h/index.html"<CR>l
+augroup END
 
-" <F7>: TMP 
+" <F7>: GIT .add 
+nnoremap <F7> :! git add %
 
-" <F8>: GIT (DO NOT OVERRIDE)
-"
-" <F9>: GIT (DO NOT OVERRIDE)
-
+" <F9>: Git .commit 
+nnoremap <F8> :! git commit
 
 " }}}
 
-" <leader>[0-9] TOGGLE OPTIONS ---------{{{
+" <leader>[0-9] TOGGL OPTIONS ---------{{{
 
 " 1: toggle project tree
-nnoremap <leader>1 :Lexplore<CR>
+nnoremap <leader>1 :20Lexplore<CR>
 
 " 2: toggle QuickFix window
 nnoremap <leader>2 :call QuickfixToggle()<CR>
@@ -125,28 +176,40 @@ function! FoldColumnToggle()
    endif
    set foldcolumn?
 endfunction
-"}}}
+"}}}       
 
 " OTHER {{{
 " insert spaces and blank lines in normal mode.
 nnoremap <leader><Space> i<Space><Esc>l
 nnoremap <leader><CR> o<Esc>
+
+" end
+nnoremap <leader>; g_
+inoremap <leader>; <Esc>g_
+
+" end a line with a semicolon in javascript 
+augroup end_line
+   autocmd!
+   autocmd FileType javascript nnoremap <buffer> <leader>; g_a;<ESC>
+   autocmd FileType javascript inoremap <buffer> <leader>; <ESC>g_a;<ESC>
+augroup end
+
+" access clipboard from SELECT Mode
+snoremap <C-R> <SPACE><BS><C-R>
 "}}}
-"
+
+" select first to last character of line in visual mode
+xnoremap il ^og_h 
 "}}}
 
 " *** TEMP SETTINGS ***
 " ------------------{{{ 
-" LEARNING ---------{{{
-nnoremap <Up> :!echo "Do not use the arrow keys anymore, OK?\!"<CR>
-nnoremap <Down> :!echo "Do not use the arrow keys anymore, OK?\!"<CR>
-nnoremap <Left> :!echo "Do not use the arrow keys anymore, OK?\!"<CR>
-nnoremap <Right> :!echo "Do not use the arrow keys anymore, OK?\!"<CR>
+" UNLEARN ARROW KEYS ---------{{{
 
-inoremap <Up> <Esc>:!echo "Do not use the arrow keys anymore, OK?\!"<CR>
+inoremap <Up> <C-X><C-O>
 inoremap <Down> <Esc>:!echo "Do not use the arrow keys anymore, OK?\!"<CR>
-inoremap <Left> <Esc>:!echo "Do not use the arrow keys anymore, OK?\!"<CR>
-inoremap <Right> <Esc>:!echo "Do not use the arrow keys anymore, OK?\!"<CR>
+inoremap <Left> <Esc>:!echo "Do not use the arrow keys anymore, OK?\!"<CR> 
+inoremap <Right> <C-N>
 
 vnoremap <Up> <Esc>:!echo "Do not use the arrow keys anymore, OK?\!"<CR>
 vnoremap <Down> <Esc>:!echo "Do not use the arrow keys anymore, OK?\!"<CR>
@@ -155,39 +218,49 @@ vnoremap <Right> <Esc>:!echo "Do not use the arrow keys anymore, OK?\!"<CR>
 "}}}
 
 " EXPERIMENTATION ---------{{{
+"
+cnoremap <leader>. <CR>
 
-" always perform very magic pattern search
-nnoremap / /\v
+" StatusLine
+function g:VIMRC_set_statusline(mode)
+   if a:mode ==# "abc" || (has_key(b:,"ABC_obj") && b:ABC_obj.idle == 0) 
+      setlocal statusline=%#LineNr#---\ %#PMenu#---SNIPPET\ MODE---\ \ %f\ \ ---SNIPPET\ MODE---
+   elseif a:mode ==# "i" 
+      setlocal statusline=%#LineNr#---\ %#WildMenu#---INSERT\ MODE---\ \ %f\ \ ---INSERT\ MODE---
+   elseif a:mode ==# "n"  
+      setlocal statusline=%#LineNr#---\ %#StatusLineNC#%f\ \ \ \ %=Line:%4l\\%-4L
+   endif 
+endfunction
 
-" Statusline experimentation
-" Add visual cue to Insert mode.
-" TODO Wrap this in a function
 set laststatus=2
-set statusline=%#LineNr#---\ %#StatusLineNC#%f\ \ \ \ %=Line:%4l\\%-4L
+
+call VIMRC_set_statusline("n")
 augroup my_statusline
    autocmd!
-   autocmd InsertEnter * set statusline=%#LineNr#---\ %#WildMenu#---INSERT\ MODE---\ \ %f\ \ ---INSERT\ MODE---
-   autocmd InsertLeave * set statusline=%#LineNr#---\ %#StatusLineNC#%f\ \ \ \ %=Line:%4l\\%-4L
+   autocmd InsertEnter * call VIMRC_set_statusline("i")
+   autocmd InsertLeave * call VIMRC_set_statusline("n")
 augroup END
 
-" my configuration for ntrw file browser see (https://shapeshed.com/vim-netrw/) 
-let g:netrw_banner = 0
-let g:netrw_liststyle = 3
-let g:netrw_browse_split = 4
-let g:netrw_altv = 1
-let g:netrw_winsize = 25
-
-" quotes and brackets
-nnoremap <leader>" i""<Esc>i
-nnoremap <leader>' i''<Esc>i
-nnoremap <leader>{ i{}<Esc>i
-nnoremap <leader>[ i[]<Esc>i
-nnoremap <leader>` i``<Esc>i
-nnoremap <leader>( i()<Esc>i
-
-"TODO: inoremap or abbreviations
-"      vnoremap
-
+" j and k in markdown files
+augroup moving_in_markdown
+   autocmd!
+   autocmd FileType markdown nnoremap <buffer> j gj
+   autocmd FileType markdown nnoremap <buffer> k gk
+augroup END
 "}}}
 
 "}}}
+
+let s:path_to_snippets_folder = "~/.vim/bundle/SnippetsABC/snippets/"
+
+augroup abc_load
+   autocmd!
+   autocmd FileType vim call ABC_load(s:path_to_snippets_folder . "vimscript.abc.md")
+   autocmd FileType markdown call ABC_load(s:path_to_snippets_folder . "markdown.abc.md")
+   autocmd FileType abc call ABC_load(s:path_to_snippets_folder . "markdown.abc.md")
+   autocmd FileType abc call ABC_load(s:path_to_snippets_folder . "abc.abc.md")
+   autocmd FileType javascript call ABC_load(s:path_to_snippets_folder . "javascript.abc.md")
+   autocmd FileType svg call ABC_load(s:path_to_snippets_folder . "svg.abc.md")
+   autocmd FileType html call ABC_load(s:path_to_snippets_folder . "html.abc.md")
+augroup END
+

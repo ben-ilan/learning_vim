@@ -1,4 +1,6 @@
 " *** GENERAL SETTINGS ***
+" Last update: 29-09-2020
+
 " ---------------------{{{
 execute pathogen#infect()
 

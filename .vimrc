@@ -120,6 +120,9 @@ augroup sourcing
    " references the javascript file  
    autocmd FileType javascript nnoremap <silent> <buffer> <F6> :w<CR>:! start chrome "%:h/index.html"<CR>
    autocmd FileType javascript inoremap <silent> <buffer> <F6> <ESC>:w<CR>:! start chrome "%:h/index.html"<CR>l
+
+   autocmd Filetype python nnoremap <silent> <buffer> <F5> :w<CR>:! python3 %<CR>
+   autocmd Filetype python inoremap <silent> <buffer> <F5> <Esc>:w<CR>:! python3 %<CR>
 augroup END
 
 " <F7>: GIT .add 
@@ -251,7 +254,7 @@ augroup END
 
 "}}}
 
-let s:path_to_snippets_folder = "~/.vim/bundle/SnippetsABC/snippets/"
+let s:path_to_snippets_folder = "~/.vim/bundle/snippets_ABC/snippets/"
 
 augroup abc_load
    autocmd!

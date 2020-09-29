@@ -45,3 +45,4 @@ After learning the basics of using the editor I dived into learning Vimscript th
 ## Plugins
 As of now, I am using Tim Pope's [Pathogen](https://github.com/tpope/vim-pathogen) for managing my (future) plugins.   
 
+

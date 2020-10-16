@@ -113,15 +113,15 @@ augroup sourcing
    autocmd FileType vim nnoremap <buffer> <F5> :w<CR>:source %<CR>
    autocmd FileType vim inoremap <buffer> <F5> <ESC>:w<CR>:source %<CR>l
 
-   autocmd FileType markdown,svg,html nnoremap <silent> <buffer> <F5> :w<CR>:! start chrome %<CR>
-   autocmd FileType markdown,svg,html inoremap <silent> <buffer> <F5> <ESC>:w<CR>:! start chrome %<CR>l
+   autocmd FileType markdown,svg,html nnoremap <silent> <buffer> <F5> :w<CR>:! google-chrome %<CR>
+   autocmd FileType markdown,svg,html inoremap <silent> <buffer> <F5> <ESC>:w<CR>:! google-chrome %<CR>l
 
    autocmd FileType javascript nnoremap <silent> <buffer> <F5> :w<CR>:echo system("node " . expand("%:p"))<CR>
    autocmd FileType javascript inoremap <silent> <buffer> <F5> <ESC>:w<CR>:echo system("node " . expand("%:p"))<CR>l
    " browser alternative, needs an index.html in the same folder that
    " references the javascript file  
-   autocmd FileType javascript nnoremap <silent> <buffer> <F6> :w<CR>:! start chrome "%:h/index.html"<CR>
-   autocmd FileType javascript inoremap <silent> <buffer> <F6> <ESC>:w<CR>:! start chrome "%:h/index.html"<CR>l
+   autocmd FileType javascript nnoremap <silent> <buffer> <F6> :w<CR>:! google-chrome "%:h/index.html"<CR>
+   autocmd FileType javascript inoremap <silent> <buffer> <F6> <ESC>:w<CR>:! google-chrome "%:h/index.html"<CR>l
 
    autocmd Filetype python nnoremap <silent> <buffer> <F5> :w<CR>:! python3 %<CR>
    autocmd Filetype python inoremap <silent> <buffer> <F5> <Esc>:w<CR>:! python3 %<CR>
@@ -267,5 +267,6 @@ augroup abc_load
    autocmd FileType javascript call ABC_load(s:path_to_snippets_folder . "javascript.abc.md")
    autocmd FileType svg call ABC_load(s:path_to_snippets_folder . "svg.abc.md")
    autocmd FileType html call ABC_load(s:path_to_snippets_folder . "html.abc.md")
+   autocmd FileType python call ABC_load(s:path_to_snippets_folder . "python.abc.md")
 augroup END
 

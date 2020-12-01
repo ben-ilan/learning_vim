@@ -1,13 +1,15 @@
+" Last updated: 01-12-2020
 " *** GENERAL SETTINGS ***
-" Last update: 29-09-2020
-
 " ---------------------{{{
-execute pathogen#infect()
-
+runtime! debian.vim
 filetype plugin indent on
+if filereadable("/etc/vim/vimrc.local")
+  source /etc/vim/vimrc.local
+endif
+" In case of version < 7 use pathogen for handling packages
+" execute pathogen#infect('bundle/{}','/usr/share/vim/vimfiles/pack/{}/start/{}')
 
 let mapleader = ","
-
 set number
 
 " bellof for errors in Normal mode 
@@ -17,7 +19,7 @@ set belloff=error
 set nolinebreak
 set nowrap
 
-" but make an exception for md
+" but make an exception for markdown files
 augroup general_options
    autocmd!
    autocmd FileType markdown,abc  setlocal linebreak
@@ -25,7 +27,6 @@ augroup general_options
 augroup END
 
 set confirm " shows a dialog before exiting a buffer
-
 set clipboard="" "no connection with the external clipboard, use "+p
 
 " always perform very magic pattern search
@@ -69,7 +70,6 @@ nnoremap ; :
 inoremap <leader>. <Esc>
 vnoremap <leader>. <Esc>
 " but prevent firing the . operator by accident in normal mode
-
 nnoremap <leader>. <Nop>
 
 " leave insert mode after 10 seconds inactivity
@@ -256,7 +256,10 @@ augroup END
 
 "}}}
 
-let s:path_to_snippets_folder = "~/.vim/bundle/snippets_ABC/snippets/"
+" *** ABC plugin RELATED ***
+" -----------------{{{ 
+let s:path_to_snippets_folder = "/usr/share/vim/vimfiles/pack/"
+let s:path_to_snippets_folder .= "abc/start/snippets_ABC/snippets/"
 
 augroup abc_load
    autocmd!
@@ -269,4 +272,6 @@ augroup abc_load
    autocmd FileType html call ABC_load(s:path_to_snippets_folder . "html.abc.md")
    autocmd FileType python call ABC_load(s:path_to_snippets_folder . "python.abc.md")
 augroup END
+"-------------------}}}
+
 

@@ -3,6 +3,8 @@
 " ---------------------{{{
 runtime! debian.vim
 filetype plugin indent on
+syntax on
+
 if filereadable("/etc/vim/vimrc.local")
   source /etc/vim/vimrc.local
 endif
@@ -28,9 +30,15 @@ augroup END
 
 set confirm " shows a dialog before exiting a buffer
 set clipboard="" "no connection with the external clipboard, use "+p
+set splitbelow
 
 " always perform very magic pattern search
 nnoremap / /\v
+
+" prevent starting in Replace mode when accessing from ssl 
+if $TERM =~ 'xterm-256color'
+   nnoremap <Esc>^[ <Esc>^[
+endif
 
 " NTRW file browser --------{{{
 " see (https://shapeshed.com/vim-netrw/) 
@@ -46,6 +54,11 @@ nnoremap <Up> <C-W><Up>
 nnoremap <Down><Down> <C-W><Down> 
 nnoremap <Left> <C-W><Left>
 nnoremap <Right> <C-W><Right>
+
+tnoremap <Down><Up> <C-\><C-n><C-W><Up>
+tnoremap <Left> <C-\><C-n><C-W><Left>
+tnoremap <Right> <C-\><C-n><C-W><Right>
+
 
 " changing and deleting buffers
 " NOTE: changing buffer with the ARROW keys will save automatically
@@ -101,10 +114,10 @@ augroup END
 nnoremap <F1> :help<CR>
 
 " <F2>: reloads the default .vimrc configuration (DO NOT OVERRIDE)
-nnoremap <F2> :w<CR>:source ~/.vimrc<CR>:echom ".vimrc reloaded"<CR>
+nnoremap <F2> :w<CR>:source /etc/vim/.vimrc<CR>:echom ".vimrc reloaded"<CR>
 
 " <F3>: open terminal buffer inside Vim
-nnoremap <F3> :term <CR>
+nnoremap <F3> :term++rows=10 <CR>
 
 " <F5> + <F6>: run in browser or terminal, <F6> is alternative if there are
 " two options for a certain filetype
@@ -212,20 +225,21 @@ xnoremap il ^og_h
 " UNLEARN ARROW KEYS ---------{{{
 
 inoremap <Up> <C-X><C-O>
-inoremap <Down> <Esc>:!echo "Do not use the arrow keys anymore, OK?\!"<CR>
-inoremap <Left> <Esc>:!echo "Do not use the arrow keys anymore, OK?\!"<CR> 
+inoremap <Down> <Esc>:echo "Do not use the arrow keys anymore, OK?\!"<CR>
+inoremap <Left> <Esc>:echo "Do not use the arrow keys anymore, OK?\!"<CR> 
 inoremap <Right> <C-N>
 
-vnoremap <Up> <Esc>:!echo "Do not use the arrow keys anymore, OK?\!"<CR>
-vnoremap <Down> <Esc>:!echo "Do not use the arrow keys anymore, OK?\!"<CR>
-vnoremap <Left> <Esc>:!echo "Do not use the arrow keys anymore, OK?\!"<CR>
-vnoremap <Right> <Esc>:!echo "Do not use the arrow keys anymore, OK?\!"<CR>
+vnoremap <Up> <Esc>:echo "Do not use the arrow keys anymore, OK?\!"<CR>
+vnoremap <Down> <Esc>:echo "Do not use the arrow keys anymore, OK?\!"<CR>
+vnoremap <Left> <Esc>:echo "Do not use the arrow keys anymore, OK?\!"<CR>
+vnoremap <Right> <Esc>:echo "Do not use the arrow keys anymore, OK?\!"<CR>
 "}}}
 
 " EXPERIMENTATION ---------{{{
 "
 cnoremap <leader>. <CR>
-
+tnoremap <leader>. <CR>
+         
 " StatusLine
 function g:VIMRC_set_statusline(mode)
    if a:mode ==# "abc" || (has_key(b:,"ABC_obj") && b:ABC_obj.idle == 0) 

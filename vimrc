@@ -272,7 +272,7 @@ augroup END
 
 " *** ABC plugin RELATED ***
 " -----------------{{{ 
-let s:path_to_snippets_folder = "/usr/share/vim/vimfiles/pack/"
+let s:path_to_snippets_folder = "~/.vim/pack/"
 let s:path_to_snippets_folder .= "abc/start/snippets_ABC/snippets/"
 
 augroup abc_load

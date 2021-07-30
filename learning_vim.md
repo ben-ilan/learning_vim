@@ -42,7 +42,3 @@ One of the best feature of Vim, comparing to other editors, is its use of logica
 ## Vimscript
 After learning the basics of using the editor I dived into learning Vimscript through the website: Learn Vimscript the Hard Way by Steve Losh (2013). With this tutorial, I've created my first plugin for working with code Snippets in Vim. This repository will become public soon. 
 
-## Plugins
-As of now, I am using Tim Pope's [Pathogen](https://github.com/tpope/vim-pathogen) for managing my (future) plugins.   
-
-

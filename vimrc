@@ -285,6 +285,7 @@ augroup abc_load
    autocmd FileType svg call ABC_load(s:path_to_snippets_folder . "svg.abc.md")
    autocmd FileType html call ABC_load(s:path_to_snippets_folder . "html.abc.md")
    autocmd FileType python call ABC_load(s:path_to_snippets_folder . "python.abc.md")
+   autocmd FileType dockerfile call ABC_load(s:path_to_snippets_folder . "dockerfile.abc.md")
 augroup END
 "-------------------}}}
 

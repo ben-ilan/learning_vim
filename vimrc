@@ -269,24 +269,3 @@ augroup END
 "}}}
 
 "}}}
-
-" *** ABC plugin RELATED ***
-" -----------------{{{ 
-let s:path_to_snippets_folder = "~/.vim/pack/"
-let s:path_to_snippets_folder .= "abc/start/snippets_ABC/snippets/"
-
-augroup abc_load
-   autocmd!
-   autocmd FileType vim call ABC_load(s:path_to_snippets_folder . "vimscript.abc.md")
-   autocmd FileType markdown call ABC_load(s:path_to_snippets_folder . "markdown.abc.md")
-   autocmd FileType abc call ABC_load(s:path_to_snippets_folder . "markdown.abc.md")
-   autocmd FileType abc call ABC_load(s:path_to_snippets_folder . "abc.abc.md")
-   autocmd FileType javascript call ABC_load(s:path_to_snippets_folder . "javascript.abc.md")
-   autocmd FileType svg call ABC_load(s:path_to_snippets_folder . "svg.abc.md")
-   autocmd FileType html call ABC_load(s:path_to_snippets_folder . "html.abc.md")
-   autocmd FileType python call ABC_load(s:path_to_snippets_folder . "python.abc.md")
-   autocmd FileType dockerfile call ABC_load(s:path_to_snippets_folder . "dockerfile.abc.md")
-augroup END
-"-------------------}}}
-
-

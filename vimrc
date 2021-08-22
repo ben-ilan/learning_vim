@@ -40,6 +40,9 @@ if $TERM =~ 'xterm-256color'
    nnoremap <Esc>^[ <Esc>^[
 endif
 
+" my favourite build-in colorscheme
+colorscheme elflord
+
 " NTRW file browser --------{{{
 " see (https://shapeshed.com/vim-netrw/) 
 let g:netrw_banner = 0

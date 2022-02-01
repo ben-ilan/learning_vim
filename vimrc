@@ -58,11 +58,6 @@ nnoremap <Down><Down> <C-W><Down>
 nnoremap <Left> <C-W><Left>
 nnoremap <Right> <C-W><Right>
 
-tnoremap <Down><Up> <C-\><C-n><C-W><Up>
-tnoremap <Left> <C-\><C-n><C-W><Left>
-tnoremap <Right> <C-\><C-n><C-W><Right>
-
-
 " changing and deleting buffers
 " NOTE: changing buffer with the ARROW keys will save automatically
 nnoremap <Down><Del> :bd<CR>
@@ -217,6 +212,8 @@ augroup end
 
 " access clipboard from SELECT Mode
 snoremap <C-R> <SPACE><BS><C-R>
+
+tnoremap <leader>. <C-\><C-n>
 "}}}
 
 " select first to last character of line in visual mode
@@ -237,13 +234,8 @@ vnoremap <Down> <Esc>:echo "Do not use the arrow keys anymore, OK?\!"<CR>
 vnoremap <Left> <Esc>:echo "Do not use the arrow keys anymore, OK?\!"<CR>
 vnoremap <Right> <Esc>:echo "Do not use the arrow keys anymore, OK?\!"<CR>
 "}}}
-
-" EXPERIMENTATION ---------{{{
-"
-cnoremap <leader>. <CR>
-tnoremap <leader>. <CR>
          
-" StatusLine
+" statusLine
 function g:VIMRC_set_statusline(mode)
    if a:mode ==# "abc" || (has_key(b:,"ABC_obj") && b:ABC_obj.idle == 0) 
       setlocal statusline=%#LineNr#---\ %#PMenu#---SNIPPET\ MODE---\ \ %f\ \ ---SNIPPET\ MODE---
@@ -269,6 +261,7 @@ augroup moving_in_markdown
    autocmd FileType markdown nnoremap <buffer> j gj
    autocmd FileType markdown nnoremap <buffer> k gk
 augroup END
+
 "}}}
 
 "}}}

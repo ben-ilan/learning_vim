@@ -144,6 +144,10 @@ nnoremap <F7> :! git add %
 " <F9>: Git .commit 
 nnoremap <F8> :! git commit
 
+" <F10>: Insert date time in buffer
+nnoremap <F10> i<C-r>=strftime("%Y-%m-%d")<CR><ESC>
+inoremap <F10> <C-r>=strftime("%Y-%m-%d")<CR>
+
 " }}}
 
 " <leader>[0-9] TOGGL OPTIONS ---------{{{

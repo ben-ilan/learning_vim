@@ -13,7 +13,7 @@ nnoremap <Down><Left> :w<CR>:bp<CR>
 
 " INSERT MODE: Omni completion   
 inoremap <expr> <Up> pumvisible() ? "\<C-P>" : "\<nop>"  
-inoremap <expr> <Down> <C-N> pumvisible() ? "\<C-N> : "\<nop>"
+inoremap <expr> <Down> pumvisible() ? "\<C-N>" : "\<nop>"
 inoremap <Left> <C-X><C-F> 
 inoremap <Right> <C-X><C-O>
 

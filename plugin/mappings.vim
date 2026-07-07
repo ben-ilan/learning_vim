@@ -12,10 +12,9 @@ nnoremap <F3> :term++rows=10<CR>
 " <F4>: running scripts 
 nnoremap <F4> :echo "This filetype cannot run as a script"<CR>
 
-" <F5>-<F7>: Git  
-nnoremap <F5> :!git add %<CR>
-nnoremap <F6> :!git commit<CR>
-nnoremap <F7> :!git push origin main<CR
+" <F5>-<F7>: GIT  
+nnoremap <silent> <F5> :execute '!git add . && git commit'<CR>
+nnoremap <silent> <F6> :execute '!git push origin main'<CR>:redraw!<CR>
 
 " <leader>[0-9] TOGGLE OPTIONS 
 " 1: toggle project tree

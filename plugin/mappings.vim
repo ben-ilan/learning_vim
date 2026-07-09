@@ -13,7 +13,7 @@ nnoremap <F3> :term++rows=10<CR>
 nnoremap <F4> :echo "This filetype cannot run as a script"<CR>
 
 " <F5>-<F7>: GIT  
-nnoremap <silent> <F5> :execute '!git add . && git commit'<CR>:redraw!<CR>
+nnoremap <silent> <F5> :execute '!git add % && git commit'<CR>:redraw!<CR>
 nnoremap <silent> <F6> :execute '!git push'<CR>:redraw!<CR>
 
 " <leader>[0-9] TOGGLE OPTIONS 
